@@ -1,0 +1,61 @@
+%% Template para dissertação/tese na classe UFPEthesis
+%% versão 0.9.2
+%% (c) 2005 Paulo G. S. Fonseca
+%% www.cin.ufpe.br/~paguso/ufpethesis
+
+\documentclass[propgrad, oneside]{UFPEThesis/ufpethesis}
+
+% \university{Universidade Federal de Pernambuco}
+% \address{<CIDADE DA IES>}
+
+\institute{Centro de Informática}
+% \department{<NOME DO DEPARTAMENTO>}
+
+\program{Graduação em Ciência da Computação}
+
+\majorfield{Ciência da Computação}
+
+\title{Previsão imediata de sequências de sinais digitais para eliminação de latência em transmissões de áudio}
+
+% \date{<DATA DA DEFESA>}
+
+\author{Luiz Henrique Tavares Caúla}
+
+\adviser{Filipe C. A. Calegário}
+
+% \coadviser{NOME DO(DA) CO-ORIENTADOR(A)}
+
+%% Inicio do documento
+\begin{document}
+
+%%
+%% Parte pré-textual
+%%
+
+\frontpage
+
+\tableofcontents
+
+%%
+%% Parte textual
+%%
+\mainmatter
+
+\include{0-resumo}
+\include{1-introducao}
+\include{2-objetivo}
+\include{3-cronograma}
+\include{4-possiveis-avaliadores}
+
+%%
+%% Parte pós-textual
+%%
+\backmatter
+
+\addcontentsline{toc}{chapter}{Referências Bibliográficas}
+\nocite{*}
+\bibliographystyle{alpha}
+\bibliography{references}
+
+%% Fim do documento
+\end{document}
