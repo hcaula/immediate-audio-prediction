@@ -311,6 +311,11 @@ grau de \@degree\ em \@majorfield.}
   \else\if\@degreetype5
     \@bachelordegree
   \fi\fi\fi\fi\fi}
+  
+\def\area#1{%
+  \gdef\@area{#1}
+  \if\@scr1 \hypersetup{pdftitle={\@area}}\fi}
+\def\@area{\@notdefined}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -796,6 +801,8 @@ grau de \@degree\ em \@majorfield.}
       \@author
       \vskip\baselineskip
       \@texttype
+      \vskip
+      \@area
     \end{center}
   \end{minipage}\\
   \vfill
