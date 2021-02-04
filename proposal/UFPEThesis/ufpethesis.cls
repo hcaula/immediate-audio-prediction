@@ -156,6 +156,7 @@ grau de \@degree\ em \@majorfield.}
 \if\@language0
   \gdef\@notdefined{NÃO DEFINIDO}
   \gdef\acknowledgementsname{Agradecimentos}
+  \gdef\@areaname{Área(s)}
   \gdef\@axiomname{Axioma}
   \gdef\@conjecturename{Conjectura}
   \gdef\@defname{Definição}
@@ -802,7 +803,9 @@ grau de \@degree\ em \@majorfield.}
       \vskip\baselineskip
       \@texttype
       \vskip
-      \@area
+      \@maleadvisertitle: \@adviser
+      \vskip
+      \@areaname: \@area
     \end{center}
   \end{minipage}\\
   \vfill
