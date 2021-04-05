@@ -3,6 +3,22 @@
 % quais são as soluções atuais para o problema? Como elas atendem os "critérios de avaliaçao"? O que pode serve de inspiração para sua solução?
 % no caso de problema/solução original, faz um estado da arte de delimitação do escopo (eu conheo o que existe o suficiente para dizer que ninguém)
 
-[TODO]: Escrever sobre as ferramentas usadas hoje.
+Para resolver o problema da latência em ambientes musicais, identificamos duas abordagens principais: (1) otimizações na camada de transporte da Internet e (2) criação de ambientes assíncronos, onde os músicos não performam em tempo real uns com os outros.
 
-[TODO]: Falar sobre a inspiração do rollback
+\subsection{Otimizações na camada de transporte}
+
+Esta abordagem procura atacar o problema de forma mais linear, implementando melhorias na conexão pela Internet entre os participantes ou utilizando infraestruturas de rede específicas.
+
+\textit{LoLa} (\textit{LOw LAtency audio visual streaming system}) \cite{lola}, um sistema de \textit{streaming} audio visual desenvolvido pelo \textit{Conservatorio di Musica G. Tartini}, consegue atingir conexões de baixa latência, utilizando infraestruturas de rede dedicadas. Foi usado em diversas apresentações de até 3.500 km de distância entre os músicos entre os anos de 2010 e 2013 \cite{lola_streaming}. No entanto, deixa muito claro que sua solução não é necessariamente acessível, sendo recomendado no mínimo 1 Gigabit por segundo de banda em todas as pontas. De acordo com estudo realizado pela Viavi Solutions em 2019, apenas 5\% da população mundial possui conexões tão rápidas \cite{1gbps}, e a média de velocidade mundial é de apenas 97.52 Megabits por segundo, pelos dados apresentados pelo Speedtest Global Index \cite{speed_test}. Portanto, para o público em geral, não é uma solução de fácil acesso.
+
+\textit{SoundJack} \cite{soundjack}, por outro lado, utiliza-se de alguns métodos que o torna mais acessíveis para o usuário comum. Ele consegue atingir velocidades mais rápidas que aplicações comerciais como \textit{Zoom}, \textit{Teams} e \textit{FaceTime} por dois fatores: (1) conecta usuários diretamente através de P2P (\textit{peer-to-peer}), ao contrário das soluções citadas, que transportam dados entre servidores centrais e (2) não otimiza a qualidade o áudio/vídeo automaticamente, deixando como responsabilidade do usuário; caso prefiram, os músicos podem optar por conexões de menores latências assumindo o custo de obter piores qualidades de áudio. Nas configurações recomendadas, infraestruturas comerciais comuns residenciais são suportadas via Ethernet. Entretanto, \textit{SoundJack} requer um poder computacional relativamente alto para atingir baixas latências - recomenda no mínimo processadores i7 Quad Core, custando cerca de R\$2456,90 \footnote{Preço encontrado na Amazon Brasil em 04/04/2021.}, também oferecendo um dispositivo próprio dedicado à aplicação, vendendo por €226,05 \footnote{Preço encontrado na Symonics em 04/04/2021.}.
+
+A aplicação comercial \textit{JamKazam} \cite{jamkazam} também baseia-se em entrega síncrona dos pacotes de áudio para construir um ambiente musical colaborativo \textit{online}. De acordo com seus os resultados apresentados, é possível performar em conjunto com baixas latências onde os músicos estejam em um mesmo estado, numa distância média de 490 km \cite{jamkazam_video}. Porém, entre maiores distâncias ou infraestruturas não baseadas em fibras, a latência excelente recomendada pela aplicação de 30 ms \cite{jamkazam_latencies} é difícil de ser obtida.
+
+TODO: JackTrip
+
+\subsection{Criação de ambientes assíncronos}
+
+Uma solução que possibilita a percepção de baixa latência é abdicar do requisito de entregar uma experiência em tempo real. Caso seja possível atrasar a entrega dos pacotes de forma não perceptível e, portanto, aumentando a janela mínima de espera, não é necessário possuir baixas latências.
+
+A aplicação \textit{jammr} \cite{jammr} aproveita o conceito de progressão de acordes da teoria musical a seu favor. A cada \textit{loop}, os participantes ouvem o que foi tocado na última iteração pelos seus colegas. Dessa forma, por não ser necessário manter as performances em sincronia, há uma tolerância muito maior às latências causadas tanto pela camada de transporte como as causadas pelos processamentos de áudio locais. No entanto, tal solução necessita que os músicos toquem a mesma progressão em \textit{loop}, funcionando bem para improvisações simples (\textit{jam sessions}); porém, para músicas mais complexas, o sistema não é ideal.
