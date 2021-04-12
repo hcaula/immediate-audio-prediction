@@ -6,6 +6,7 @@
 Para resolver o problema da latência em ambientes musicais, identificamos duas abordagens principais: (1) otimizações na camada de transporte da Internet e (2) criação de ambientes assíncronos, onde os músicos não performam em tempo real uns com os outros.
 
 \subsection{Otimizações na camada de transporte}
+\label{sec:delay-based-audio-solutions}
 
 Esta abordagem procura atacar o problema de forma mais linear, implementando melhorias na conexão pela Internet entre os participantes ou utilizando infraestruturas de rede específicas.
 
@@ -26,5 +27,7 @@ Uma solução que possibilita a percepção de baixa latência é abdicar do req
 A aplicação \textit{jammr} \cite{jammr} aproveita o conceito de progressão de acordes da teoria musical a seu favor. A cada \textit{loop}, os participantes ouvem o que foi tocado na última iteração pelos seus colegas. Dessa forma, por não ser necessário manter as performances em sincronia, há uma tolerância muito maior às latências causadas tanto pela camada de transporte como as causadas pelos processamentos de áudio locais. No entanto, tal solução necessita que os músicos toquem a mesma progressão em \textit{loop}, funcionando bem para improvisações simples (\textit{jam sessions}); porém, para músicas mais complexas, o sistema não é ideal.
 
 \subsection{Considerações}
+
+Como forma de reduzir o efeito da latência em transmissões \textit{online} de música, nós propomos a previsão local de áudio baseado em entradas anteriores. Não foram encontradas soluções, estudos ou aplicações que procuram resolver esse problema dessa forma.
 
 ...
