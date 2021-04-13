@@ -15,12 +15,12 @@ No contexto de ambientes musicais \textit{online}, podemos comparar esse método
 
 \subsection{\textit{Client-side prediction}}
 
-A implementação do \textit{Client-side prediction} (\figref{fig:rollback_diagram}), por outro lado, aumenta a tolerância da espera dos pacotes propondo a previsão dos \textit{inputs} dos jogadores antes que cheguem via Internet utilizando dados já recebidos anteriormente. Caso as previsões sejam incorretas, o estado de jogo no momento em que a previsão foi realizado é retornado, portanto, o nome popular ``\textit{rollback}'' (reversão) \cite{rollback}.
+A implementação do \textit{Client-side prediction} \footnote{Tradução da imagem criada por GerardSN, CC BY-SA 4.0. Disponível em https://commons.wikimedia.org/w/index.php?curid=97477279.} (\figref{fig:rollback_diagram}), por outro lado, aumenta a tolerância da espera dos pacotes propondo a previsão dos \textit{inputs} dos jogadores antes que cheguem via Internet utilizando dados já recebidos anteriormente. Caso as previsões sejam incorretas, o estado de jogo no momento em que a previsão foi realizado é retornado, portanto, o nome popular ``\textit{rollback}'' (reversão) \cite{rollback}.
 
 \begin{figure}[htbp]
 \centering
 \includegraphics[width=1\textwidth]{images/rollback.png}
-\caption{Diagrama demonstrando o processo de execução e sincronização dos \textit{inputs} de dois jogadores (com \textit{ping} de 90 ms entre eles) em um jogo \textit{online} utilizando \textit{client-side prediction} em um modelo \textit{peer-to-peer}. Tradução da imagem criada por GerardSN, CC BY-SA 4.0, https://commons.wikimedia.org/w/index.php?curid=97477279.}
+\caption{Diagrama demonstrando o processo de execução e sincronização dos \textit{inputs} de dois jogadores (com \textit{ping} de 90 ms entre eles) em um jogo \textit{online} utilizando \textit{client-side prediction} em um modelo \textit{peer-to-peer}.}
 \label{fig:rollback_diagram}
 \end{figure}
 

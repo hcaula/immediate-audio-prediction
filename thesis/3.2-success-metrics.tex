@@ -1,0 +1,11 @@
+\section{Métricas de sucesso dos modelos preditivos}
+
+Como mencionado, existem alguns requisitos que os modelos preditivos propostos precisam cumprir para serem considerados bem sucedidos. Em cada ciclo, diferentes metodologias foram utilizadas para demonstrar essas métricas.
+
+\subsection{Corretude das previsões}
+
+Devido à característica de linearidade de tempo que a música possui, não é possível ``retornar'' a um estado passado da música. Dessa forma, é importante que os modelos sejam os mais acurados possíveis.
+
+\subsection{Tempo de geração de previsões}
+
+Supondo que \textit{t} é o tempo escolhido das janelas de previsão de áudio e \textit{p} é o tempo levado para gerar essas previsões, é imprescindível para o sucesso dos modelos preditivos que $t \leq p $. Caso contrário, o tempo excedente de processamento cria um \textit{delay} entre o que está sendo executado pelo músico remoto e o que está sendo reproduzido localmente e, consequentemente, causando dessincronia entre os músicos.
