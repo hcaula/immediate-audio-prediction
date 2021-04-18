@@ -3,7 +3,9 @@
 % quais são as soluções atuais para o problema? Como elas atendem os "critérios de avaliaçao"? O que pode serve de inspiração para sua solução?
 % no caso de problema/solução original, faz um estado da arte de delimitação do escopo (eu conheo o que existe o suficiente para dizer que ninguém)
 
-Para resolver o problema da latência em ambientes musicais, identificamos duas abordagens principais: (1) otimizações na camada de transporte da Internet e (2) criação de ambientes assíncronos, onde os músicos não performam em tempo real uns com os outros.
+Como forma de reduzir o efeito da latência em transmissões \textit{online} de música, nós propomos a previsão local de áudio baseado em entradas anteriores. Não foram encontradas soluções, estudos ou aplicações que procuram resolver esse problema dessa forma.
+
+No entanto, para resolver o problema da latência em ambientes musicais, identificamos duas abordagens principais: (1) otimizações na camada de transporte da Internet e (2) criação de ambientes assíncronos, onde os músicos não performam em tempo real uns com os outros.
 
 \subsection{Otimizações na camada de transporte}
 \label{sec:delay-based-audio-solutions}
@@ -26,7 +28,51 @@ Uma solução que possibilita a percepção de baixa latência é abdicar do req
 
 A aplicação \textit{jammr} \cite{jammr} aproveita o conceito de progressão de acordes da teoria musical a seu favor. A cada \textit{loop}, os participantes ouvem o que foi tocado na última iteração pelos seus colegas. Dessa forma, por não ser necessário manter as performances em sincronia, há uma tolerância muito maior às latências causadas tanto pela camada de transporte como as causadas pelos processamentos de áudio locais. No entanto, tal solução necessita que os músicos toquem a mesma progressão em \textit{loop}, funcionando bem para improvisações simples (\textit{jam sessions}); porém, para músicas mais complexas, o sistema não é ideal.
 
+TODO: Jamtaba (ninjam)
+
 \subsection{Considerações}
+
+Cada abordagem para o problema da latência apresenta um conjunto de vantagens e desvantagens entre si. Dessa forma, podemos compará-las na \tabref{tab:morfological_matrix} de acordo com quatro qualidades: (1) se entrega os áudios em tempo real; (2) se oferece baixo custo financeiro para usá-la; (3) se funciona bem em conexões lentas, de acordo com as valores demonstrados na \secref{sec:problem} e; (4) se suporta improvisações dos músicos.
+
+TODO: revisitar essa matriz, estilizar e corrigi-la
+
+\renewcommand{\arraystretch}{2}
+
+\begin{table}[h!]
+    \centering
+    \begin{tabular}{|c|c|c|c|c|c|}
+        \cline{3-6}
+        \multicolumn{2}{c|}{} & \rotatebox[origin=c]{90}{\makecell{Tempo \\ real}} & \rotatebox[origin=c]{90}{\makecell{Baixo \\ custo}} & \rotatebox[origin=c]{90}{\makecell{Funciona em \\ conexões lentas}} & \rotatebox[origin=c]{90}{\makecell{Suporta \\ improvisações}} \\
+        \hline
+        
+        \multirow{5}{5em}{\centering Soluções síncronas} & LoLa & X & & & X \\ 
+        \cline{2-6}
+        & SoundJack & X & & & X  \\ 
+        \cline{2-6}
+        & JamKazam & X & & & X \\ 
+        \cline{2-6}
+        & JackTrip & X & X & & X \\ 
+        \cline{2-6}
+        & SonoBus & X & X & & X \\ 
+        \cline{2-6}
+        
+        \hline
+        \hline
+        
+        \multirow{2}{5em}{\centering Soluções assíncronas} & jammr & & X & X & X \\ 
+        \cline{2-6}
+        & JamTaba & & X & X & X \\ 
+        \cline{2-6}
+        
+        \hline
+        \hline
+        
+        \multirow{1}{5em}{\centering Solução proposta} & Client-side prediction & X & X & X & \\ 
+        \hline
+    \end{tabular}
+    \caption{Matriz morfológica comparando as diferentes abordagens para solucionar o problema da latência em ambientes musicais colaborativos \textit{online}.}
+    \label{tab:morfological_matrix}
+\end{table}
 
 Como forma de reduzir o efeito da latência em transmissões \textit{online} de música, nós propomos a previsão local de áudio baseado em entradas anteriores. Não foram encontradas soluções, estudos ou aplicações que procuram resolver esse problema dessa forma.
 
