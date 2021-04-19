@@ -165,6 +165,7 @@ grau de \@degree\ em \@majorfield.}
   \gdef\@equationame{equação}
   \gdef\@chaptername{Capítulo}
   \gdef\@sectionname{Seção}
+  \gdef\@subsectionname{Subseção}
   \gdef\@appendixname{Apêndice}
   \gdef\@pagename{página}
   \gdef\@colophontext{%
@@ -191,6 +192,7 @@ grau de \@degree\ em \@majorfield.}
   \gdef\@equationame{equation}
   \gdef\@chaptername{Chapter}
   \gdef\@sectionname{Section}
+  \gdef\@subsectionname{Subsection}
   \gdef\@appendixname{Appendix}
   \gdef\@pagename{page}
   \gdef\@colophontext{%
@@ -739,6 +741,7 @@ grau de \@degree\ em \@majorfield.}
 \newcommand{\eqnref}[1]{\@equationame~\eqref{#1}\xspace}
 \newcommand{\chapref}[1]{\@chaptername~\ref{#1}\xspace}
 \newcommand{\secref}[1]{\@sectionname~\ref{#1}\xspace}
+\newcommand{\subsecref}[1]{\@subsectionname~\ref{#1}\xspace}
 \newcommand{\appref}[1]{\@appendixname~\ref{#1}\xspace}
 \newcommand{\axiref}[1]{\@axiomname~\ref{#1}\xspace}
 \newcommand{\conjref}[1]{\@conjname~\ref{#1}\xspace}
@@ -1220,6 +1223,7 @@ grau de \@degree\ em \@majorfield.}
 \newcommand{\eqnref}[1]{\@equationame~\eqref{#1}\xspace}
 \newcommand{\chapref}[1]{\@chaptername~\ref{#1}\xspace}
 \newcommand{\secref}[1]{\@sectionname~\ref{#1}\xspace}
+\newcommand{\subsecref}[1]{\@subsectionname~\ref{#1}\xspace}
 \newcommand{\appref}[1]{\@appendixname~\ref{#1}\xspace}
 \newcommand{\axiref}[1]{\@axiomname~\ref{#1}\xspace}
 \newcommand{\conjref}[1]{\@conjname~\ref{#1}\xspace}
