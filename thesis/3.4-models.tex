@@ -3,6 +3,7 @@
 Dada a solução proposta, este trabalho propõe o estudo da viabilidade de dois modelos preditivos - previsão através de (1) geração de novas sequências e (2) indexação e identificação de sequências anteriores. Ambas baseiam-se em extrair informações a partir de entradas anteriores de áudio e apontar um \textit{output} sobre o que classificam ser o mais próximo do dado real futuro - no entanto, possuem diferenças sobre a forma que atingem esse objetivo.
 
 \subsection{Geração de novas sequências}
+\label{subsec:new_sequence_generator}
 
 Gerar novas sequências baseando-se em entradas anteriores encaixa-se intuitivamente no conceito de ``previsão'', como descrito no algoritmo de \textit{client-side prediction}. Evidentemente, seu uso em uma adaptação para ambientes musicais foi explorado.
 
@@ -24,6 +25,7 @@ Uma das abordagens utilizadas para resolver problemas do conjunto \textit{Time S
 A biblioteca \textit{Keras} \cite{keras}, escrita na linguagem de programação Python, implementa modelos de aprendizagem LSTM. Dessa forma, seu uso é bastante promissor para nossa adaptação musical de \textit{Client-Side Prediction}. Exploramos-o no primeiro ciclo de estudos, descrito no \chapref{chap:lstm}.
 
 \subsection{Indexação e identificação de sequências anteriores}
+\label{subsec:indexation_and_identification}
 
 Para previsão de sequências, a geração de novos valores não é um requisito. Se possuirmos um conjunto de dados, reunindo diferentes sequências e informações sobre quais vieram após tais sequências, poderíamos apenas reproduzi-las. Dessa forma, sugerimos um modelo preditivo que, ao invés de fornecer sequências de áudio inéditas, identifica sequências similares e reproduz a que veio em seguida, como ilustrado na \figref{fig:indexative_model}.
 
@@ -54,6 +56,35 @@ Entretanto, a mesma biblioteca implementa o algoritmo DTW (\textit{Dynamic Time 
 
 Dessa forma, o \chapref{chap:dtw} também demonstra como utilizamos o DTW em nossas experimentações, além de sua taxa de sucesso na identificação de janelas semelhantes. Caso essa taxa seja alta o suficiente e a indexação das previsões seja acurada, será possível reproduzir um áudio bastante similar ao transmitido pelo músico remoto.
 
-\subsection{Comparação entre os modelos}
+\subsection{Comparações entre os modelos}
 
-TODO: comparar as vantagens e desvantagens entre os modelos
+Apesar de ambos os modelos basearem-se em sequências anteriores para gerar ou apontar previsões musicais, as duas abordagens diferem na forma que funcionam. As diferenças implicam em alguns pontos que uma abordagem pode realizar melhor que a outra, assim como o inverso pode ocorrer, descritos na \tabref{tab:models_comparission}.
+
+Por entregar sequências inéditas, o modelo preditivo gerador de novas sequências, descrito na \subsecref{subsec:new_sequence_generator}, é mais flexível que o modelo indexador, descrito na \subsecref{subsec:indexation_and_identification}. Afinal, entradas nunca vistas anteriormente sempre terão previsões geradas, mesmo que não sejam precisas com a realidade. Se aplicarmos sequências não vistas no modelo indexador, nenhuma janela será identificada e, portanto, nenhuma previsão será realizada.
+
+Além disso, para identificar uma janela precisamente, o modelo indexador requisita de mais informações que o modelo gerador, aumentando, portanto, o tempo da janela de previsão. Quanto maior a janela prevista, menor a probabilidade de replicar, de forma similar, a sequência de entrada. 
+
+Por outro lado, pela natureza complexa da representação de áudio, gerar uma sequência de alta qualidade, ainda que precisa, é um grande desafio para o modelo gerador. Por entregar sequências já armazenadas em alta qualidade, o modelo indexador sempre entregará sequências limpas ao ouvido humano, evitando desconfortos dos músicos.
+
+Ademais, a utilização de LSTM, devido à complexidade das redes neurais, pode requerer grandes tempos de processamento \cite{lstm_slow} para gerar as previsões. A busca com DTW, apesar de ser um algoritmo de complexidade $O(N^2)$, pode ser otimizado para grandes bases de dados \cite{dtw_complexity}. Como o tempo de previsão é sensível em nossa adaptação do \textit{client-side prediction} para música, é essencial que o modelo preditivo seja eficiente.
+
+\begin{table}[ht!]
+    \centering
+    \begin{tabular}{|c|c|c|c|c|}
+        \cline{2-5}
+        
+        \multicolumn{1}{c|}{} & \rotatebox[origin=c]{90}{\makecell{Flexível a \\ novas entradas}} &
+        \rotatebox[origin=c]{90}{\makecell{Requer pouca \\ informação}} & \rotatebox[origin=c]{90}{\makecell{Predição de \\ alta resolução}} &
+        \rotatebox[origin=c]{90}{\makecell{Rápido \\ processamento}} \\
+        
+        \hline
+        
+        Modelo gerador & X & X & & \\ 
+        \hline
+        
+        Modelo indexador & & & X & X \\ 
+        \hline
+    \end{tabular}
+    \caption{Matriz morfológica comparando os dois modelos propostos para adaptação do \textit{client-side prediction} para música.}
+    \label{tab:models_comparission}
+\end{table}
