@@ -27,6 +27,8 @@ A biblioteca \textit{Keras} \cite{keras}, escrita na linguagem de programação 
 \subsection{Indexação e identificação de sequências anteriores}
 \label{subsec:indexation_and_identification}
 
+No primeiro ciclo de estudos, uma das possibilidades estudadas foi, ao invés de treinar um grande modelo, utilizar cada janela de previsão e treinar pequenos modelos. Para isso, no momento da previsão, precisaríamos de alguma forma de identificar qual modelo melhor se encaixa na sequência de entrada. Com isso, pesquisamos métodos para realizar a identificação das sequências de um banco de dados e, com isso, surgiu a ideia de, ao invés de gerar novas sequências, apenas entregar a que veio após a identificada. 
+
 Para previsão de sequências, a geração de novos valores não é um requisito. Se possuirmos um conjunto de dados, reunindo diferentes sequências e informações sobre quais vieram após tais sequências, poderíamos apenas reproduzi-las. Dessa forma, sugerimos um modelo preditivo que, ao invés de fornecer sequências de áudio inéditas, identifica sequências similares e reproduz a que veio em seguida, como ilustrado na \figref{fig:indexative_model}.
 
 \begin{figure}[htbp]
@@ -36,7 +38,7 @@ Para previsão de sequências, a geração de novos valores não é um requisito
     \label{fig:indexative_model}
 \end{figure}
 
-Além do conjunto de regras apresentados na \secref{sec:data_gathering}, o conjunto de dados que será consultado nesse modelo possui as seguintes regras:
+Além do conjunto de regras apresentados na \secref{sec:data_gathering}, o conjunto de dados de referência que será consultado nesse modelo possui as seguintes regras:
 
 \begin{enumerate}
     \item Todos os arquivos necessitam representar diferentes sessões da música entre si;
