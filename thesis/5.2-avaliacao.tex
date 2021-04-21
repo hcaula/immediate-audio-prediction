@@ -1,9 +1,94 @@
 \section{Avaliação}
 
-% • Metodologia
-% • Resultados obtidos
-% • Análise: discussão dos resultados
+De acordo com as métricas estabelecidas na \secref{sec:success_metrics}, vamos analisar cada uma delas de acordo com os resultados dos nossos experimentos.
 
-TODO: mostrar tabela dos resultados
+\subsection{Corretude das previsões}
 
-- Explicar o que acontece sonoramente na transição
+Para esta métrica, devemos analisar dois aspectos:
+
+\begin{enumerate}
+    \item A taxa de acerto das identificações das janelas;
+    \item A corretude sonora dos apontamentos das previsões.
+\end{enumerate}
+
+É importante mencionar que o sucesso o Item 1 não indica, necessariamente, uma boa performance para este modelo preditivo. Por exemplo, para janelas de tempo grandes, há mais chances de identificar uma janela, porém, mais suposições serão realizadas na previsão. Uma improvisação musical, por exemplo, poderia ter uma janela identificada por sua sequência de acordes, porém, muita informação seria perdida.
+
+Portanto, vejamos na \tabref{tab:dtw_results_correctness}, as taxas de acertos para cada música e cada duração escolhida para as janelas de identificação.
+
+\renewcommand{\arraystretch}{2}
+
+\begin{table}[ht!]
+    \centering
+    \begin{tabular}{|c|c|c|c|}
+        \hline
+        Música & \makecell{Duração da \\ janela (s)} & \makecell{Taxa de acerto \\ das identificações} & \makecell{Taxa de acerto \\ das previsões}\\
+        
+        \hline
+        \hline
+        
+        \multirow{3}{5em}{\centering \textit{Hotel California}} & 1,0 & 61,9\% & 61,9\% \\ 
+        \cline{2-4}
+        
+        & 2,0 & 70\% & 70\% \\ 
+        \cline{2-4}
+        
+        & 3,0 & 100\% & 100 \% \\ 
+        
+        \hline
+        
+        \multirow{2}{5em}{\centering \textit{Message In A Bottle}} & 3,158 & 100\% & 76,6\% \\ 
+        \cline{2-4}
+        
+        & 1,579 & 88,8\% & 81,4 \\ 
+        \cline{2-4}
+        
+        \hline
+    \end{tabular}
+    \caption{Taxas de acerto das identificações e previsões para cada música, para cada tempo de janela experimentado.}
+    \label{tab:dtw_results_correctness}
+\end{table}
+
+Notamos que, quanto maior a janela de duração, maior é a taxa de identificação. Isso corrobora nossa hipótese que, quanto maior a janela, mais informações possuímos para identificar com sucesso uma sequência de referência em nossa base. Para a música \textit{Hotel California}, já que não existe nenhum estado de transição, a taxa de acerto de identificação será igual a taxa de acerto das previsões.
+
+Entretanto, na música \textit{Message In A Bottle}, o mesmo não ocorre. Sempre que o músico remoto tocar uma transição, haverá um erro na previsão, pois nenhum estado aponta para ele. Porém, vale-se mencionar que esse erro será corrigido assim que possível - precisamente, a correção tem a duração de meio compasso, como determinado como \textit{offset} para cada janela. É possível fazer uma comparação desse estado à sensação de "teletransporte", mencionado na \secref{sec:client_side_prediction}, na implementação original de \textit{client-side prediction} para jogos.
+
+\subsection{Tempo de geração de previsões}
+
+Vejamos, na \tabref{tab:dtw_results_time}, as médias de tempo que este modelo levou para identificar as janelas e apontar previsões.
+
+\renewcommand{\arraystretch}{2}
+
+\begin{table}[ht!]
+    \centering
+    \begin{tabular}{|c|c|c|}
+        \hline
+        Música & \makecell{Duração da \\ janela (s)} & \makecell{Média dos tempos de previsão (s)} \\
+        
+        \hline
+        \hline
+        
+        \multirow{3}{5em}{\centering \textit{Hotel California}} & 1,0 & 0,06 \\ 
+        \cline{2-3}
+        
+        & 2,0 & 0,11 \\ 
+        \cline{2-3}
+        
+        & 3,0 & 0,15 \\ 
+        
+        \hline
+        
+        \multirow{2}{5em}{\centering \textit{Message In A Bottle}} & 3,158 & 0,19 \\ 
+        \cline{2-3}
+        
+        & 1,579 & 0,11 \\ 
+        \cline{2-3}
+        
+        \hline
+    \end{tabular}
+    \caption{Médias do tempo necessário para apontar as previsões utilizando DTW para cada música e para cada janela de tempo experimentada.}
+    \label{tab:dtw_results_time}
+\end{table}
+
+É notável que houve uma excelente performance nessa métrica. Para ser bem sucedida, os tempos precisam ser inferiores às durações das janelas e, para cada duração experimentada, esse objetivo foi alcançado com bastante tempo de sobra.
+
+Vale notar que a base de dados experimentada continha apenas as janelas que seriam testadas, deixando seu volume bastante inferior ao que uma aplicação real necessitaria. Portanto, em grande escala, é possível que otimizações sejam necessárias para manter esse tempo aceitável.
