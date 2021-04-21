@@ -1,10 +1,16 @@
 \chapter{Conclusões}
 
-% • Contribuições: o que voce trouxe de novo?
-% • trabalhos futuros
+De acordo com nosso experimentos, o modelo preditivo gerador de novas sequências com LSTM não performou bem em nenhuma das duas métricas de sucesso estabelecidas na \secref{sec:success_metrics}. Por repetir os dados de entrada, caso utilizássemos esse modelo em uma aplicação real, estaríamos apenas atrasando o áudio transmitido e replicando o problemas que as soluções síncronas enfrentam hoje.
 
+Além disso, devido ao alto tempo necessário para realizar a predição, tal solução mostrou-se inviável da forma que foi implementada. Para atingir tempos menores, seria necessário mais poder computacional, tornando essa solução inacessível para a população em geral.
 
-% PARA SER USADO EM TRABALHOS FUTUROS
-% \textit{Seq2Seq} é um \textit{framework} codificador/decodificador de propósito geral para o \textit{Tensorflow} \cite{seq2seq}. É utilizado em aplicações que requerem traduções de uma sequências para outras de diferentes domínios. É bastante utilizado em traduções para diferentes idiomas, legendas automáticas de imagens, sumário de textos, entre outros.
+Portanto, de acordo com nossos experimentos, o modelo gerador com LSTM não se mostrou promissor para ser utilizado em uma adaptação do \textit{client-side prediction} para ambientes musicais. Porém, melhorias podem ser estudadas que viabilizem seu uso, exploradas na \secref{sec:later_work}.
 
-% Para aplicação em \textit{Time Series Forecasting}, o \textit{seq2seq} considera dois domínios: passado e futuro. Dessa forma, nosso conjunto de dados constituiria de pares de sequências - o primeiro elemento representando a sequência de áudio tocado e o segundo o que foi reproduzido logo em seguida.
+Entretanto, no segundo ciclo, o modelo indexador e identificador mostrou-se bastante promissor em nossos experimentos. Apesar de possuir uma base da dados pequena, a taxa de acerto das previsões foi consideravelmente alta, de forma a trazer a sensação de fluidez nos momentos de acerto na previsão. Se relacionarmos com o \textit{client-side prediction}, que corrige os \textit{inputs} dos jogadores sempre que há um erro, os erros nas previsões realizadas podem ser aceitáveis.
+
+Ademais, o tempo necessário para apontar as predições foi bastante baixo, deixando espaço suficiente para que máquinas menos potentes do que a utilizada nos experimentos possam usufruir dessa abordagem.
+
+Porém, não podemos afirmar com certeza suficiente que o modelo indexador pode ser utilizado em aplicações reais. A base de dados utilizada foi propositalmente reduzida para testar a validade do modelo, possibilitando altas taxas de acertos na identificação e alta eficiência. Além disso, as janelas de áudio escolhidas são consideravelmente altas, o que impede seu uso em improvisações musicais.
+
+Entretanto, o modelo indexador com DTW mostrou-se bastante promissor para uso na adaptação do \textit{client-side prediction} para ambientes musicais, principalmente para músicos de base, que não tendem a improvisar em suas performances.
+
