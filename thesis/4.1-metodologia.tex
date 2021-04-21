@@ -34,7 +34,7 @@ Note que o conjunto $X$ não possui a sequência $(5,6)$. Isso se dá pois, dado
 
 Para simplificar o processamento da aprendizagem e da previsão, normalizamos as sequências numéricas no intervalo $[-1, +1]$.
 
-Em nossos experimentos, separamos a introdução da música \textit{Hotel California} (\textit{Eagles}, 1976), com a trilha no violão acústico. Tal sessão se repete em um total de três vezes ao longo da música, porém, com diferentes performances. A primeira delas, então, é usada como treinamento.
+Em nossos experimentos, utilizamos os dois primeiros seguntos da introdução da música \textit{Hotel California} (\textit{Eagles}, 1976), com a trilha isolada do violão acústico. Tal sessão se repete em um total de três vezes ao longo da música, porém, com diferentes performances. A primeira delas, então, é usada como treinamento.
 
 O valor do \textit{lookback}, em nossa adaptação, representa o tamanho da janela de previsão. A escolha desse valor está intrinsecamente conectada ao sucesso do algoritmo - valores pequenos possuem pouca informação, porém, são mais rápidos para processar; reciprocamente, o inverso ocorre com valores maiores. É importante mencionar que esse valor necessita ser maior que a latência apresentada pelo transporte dos pacotes pela Internet, afinal, queremos compensá por ela ao realizar previsões.
 
@@ -62,4 +62,4 @@ Uma vez treinado, o modelo requer uma lista $Z$, no mesmo formato que a lista $X
 
 Portanto, para rodar as previsões com o arquivo completo da introdução de \textit{Hotel California}, precisamos dividir tal arquivo durações de $LAG$ ms e, para cada uma, convertê-las no formato requerido da lista $Z$.
 
-Como uma das métricas de sucesso, definidas na \secref{sec:success_metrics}, é o tempo necessário para gerar as previsões, medidos o tempo entre formatar cada arquivo de duração $LAG$ ms e, de fato, gerar previsões pelo modelo treinado, para cada lista $Z$.
+Como uma das métricas de sucesso, definidas na \secref{sec:success_metrics}, é o tempo necessário para gerar as previsões, medimos o tempo para formatar cada arquivo de duração $LAG$ ms e o de geração das previsões, para cada lista $Z$.
