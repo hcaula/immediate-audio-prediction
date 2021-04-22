@@ -3,10 +3,10 @@
 
 Devido à alta sensibilidade do aparelho auditivo humano, para performar em conjunto com outros artistas, músicos necessitam que haja pouca latência entre a saída dos instrumentos de seus colegas e seu retorno. Dessa forma, proporcionar um ambiente colaborativo em tempo real via Internet torna-se um desafio pertinente na área de Computação Musical e Rede de Computadores. Algumas soluções procuram otimizar a conexão entre os computadores construindo infraestruturas dedicadas ou abandonam o requisito de tempo real ao entregar experiências assíncronas. No entanto, tais abordagens não abrangem, de forma síncrona, casos em que não haja acesso a uma conexão de alta velocidade ou que exista uma grande distância entre os participantes.
 
-Este trabalho, portanto, investiga a possiblidade de predizer as próximas sequências imediatas de áudio, baseando-se em entradas passadas, considerando dois métodos - predição de sequências com LSTM (\textit{Long Short-Term Memory}) e indexação de sequências usando DTW (\textit{Dynamic Time Warping}). De tal forma, espera-se que, não sendo necessária a espera pela saída do cliente transmissor, haja uma redução da percepção de latência por parte dos participantes.
+Este trabalho, portanto, investiga a possibilidade de predizer as próximas sequências imediatas de áudio, baseando-se em entradas passadas, considerando dois métodos - predição de sequências com LSTM (\textit{Long Short-Term Memory}) e indexação de sequências usando DTW (\textit{Dynamic Time Warping}). De tal forma, espera-se que, não sendo necessária a espera pela saída do cliente transmissor, haja uma redução da percepção de latência por parte dos participantes.
 
-TODO: Escrever resumo da conclusão
+Utilizando duas métricas de sucesso - corretude das previsões e tempo de processamento - avaliamos que o modelo LSTM não performou bem comparado ao modelo DTW, que apresentou resultados bastante promissores e que pode ser utilizado para músicas de gêneros com tendências menos improvisacionais.
 
 \begin{keywords}
-latência, áudio, predição de sequência, streaming, rollback, dtw, lstm
+latência, áudio, predição de sequência, streaming, transmissão, online, música, client-side prediction, rollback, dtw, lstm
 \end{keywords}
