@@ -63,3 +63,5 @@ Uma vez treinado, o modelo requer uma lista $Z$, no mesmo formato que a lista $X
 Portanto, para rodar as previsões com o arquivo completo da introdução de \textit{Hotel California}, precisamos dividir tal arquivo durações de $LAG$ ms e, para cada uma, convertê-las no formato requerido da lista $Z$.
 
 Como uma das métricas de sucesso, definidas na \secref{sec:success_metrics}, é o tempo necessário para gerar as previsões, medimos o tempo para formatar cada arquivo de duração $LAG$ ms e o de geração das previsões, para cada lista $Z$.
+
+Ao final de todas as previsões, convertemos todas as sequências de sinais digitais para um arquivo WAV para análise manual dos áudios produzidos.

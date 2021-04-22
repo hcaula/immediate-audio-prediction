@@ -64,3 +64,9 @@ Já que configuramos como "verdadeiro" o valor o boleano $subseq$, o algoritmo j
     \caption{Execução do algoritmo DTW para a primeira janela de três segundos para a música Hotel California. Acima, a base de dados de referência; abaixo, a sequência de pesquisa, transmitida pelo músico remoto em nossa simulação; em vermelho, as linhas representam o alinhamento da série temporal entregues pelo algoritmo.}
     \label{fig:dtw_hotel_california}
 \end{figure}
+
+Para calcular a taxa de sucesso das identificações, montamos um arquivo de referência que diz, para cada sequência de entrada, qual deve ser a janela correta na base de dados - caso haja correspondência, consideramos a identificação como correta. Para as previsões, utilizamos o mesmo conceito, porém, subtraindo as instâncias onde janelas de transição foram identificadas, já que assumimos a impossibilidade de prevê-las.
+
+Para a medição de performance, consideramos o tempo levado para identificar a janela com DTW e de reproduzir a previsão.
+
+Uma vez que todas as janelas passaram pelo processo completo, juntamos todas as sequências de previsões apontadas em um arquivo WAV para análise.
