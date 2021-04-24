@@ -12,3 +12,8 @@ A técnica de previsão no lado do cliente, quando aplicada a videogames, baseia
 Ademais, a quantidade de \textit{inputs} produzidos pelos jogadores é ínfima quando comparada a representação de áudio digital. Estima-se que os jogadores profissionais mais técnicos de \textit{Super Smash Bros. Melee}, um jogo de luta em plataformas, produzem em média cerca de 6 \textit{inputs} por segundo \cite{melee_inputs_per_second}, variando de acordo com o momento do jogo. Por outro lado, uma transmissão de áudio com \textit{sample rate} de 44,1 Khz produz consistentemente, por definição, 44.100 diferentes valores no mesmo espaço de tempo \cite{jukebox_dimension}. O modelo preditivo proposto por Bernier \cite{client-side-prediction} replica os últimos \textit{inputs} reconhecidos pelo servidor; se aplicássemos o mesmo método no contexto musical, efetivamente estaríamos ``atrasando'' os \textit{inputs} de áudio, portanto, perdendo a sincronia entre os participantes.
 
 Portanto, a acurácia do modelo preditivo em ambientes musicais é de suma importância, uma vez que a ``volta no tempo'' é impossível. Atingir esse alto nível de acurácia, por sua vez, é um enorme desafio, dada a dimensionalidade da representação de áudio digital. Naturalmente, o tempo total gasto na geração da previsão não pode exceder o tempo da janela prevista - caso ocorra, retornaremos ao mesmo problema enfrentado pelas soluções síncronas apresentadas na sessão \secref{sec:delay-based-audio-solutions}.
+
+\input{3.1-adaptation}
+\input{3.2-success-metrics}
+\input{3.3-data_gathering}
+\input{3.4-models}
