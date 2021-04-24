@@ -1,10 +1,10 @@
 \section{Avaliação}
 
-Para analisar a efetividade desse modelo, vamos analisar sob a ótica os critérios de avaliação, definidos na \secref{sec:success_metrics}.
+Para analisar a efetividade desse modelo, vamos analisar os resultados dos experimentos sob a ótica os critérios de avaliação, definidos na \secref{sec:success_metrics}.
 
 \subsection{Corretude das previsões}
 
-Para cada um dos valores de $LAG$, definidos na \secref{sec:lstm-metodology}, todas as previsões realizadas tenderam a "repetir" as sequências de áudio de entrada. Comparando os sinais digitais do arquivo de teste e os gerados na previsão, ilustrados na \figref{fig:lstm-repetition-results}, é possível notar que, quando alinhado com a sequência real de teste, não há nenhuma correspondência. No entanto, ao compararmos com os dados de entrada, isto é, o que construímos a lista $Z$, é possível notar uma clara semelhança. O formato da onda sonora foi mantido, diferindo apenas por sua amplitude.
+Para cada um dos valores de $LAG$, definidos na \secref{sec:lstm-metodology}, todas as previsões realizadas tenderam a ``repetir'' as sequências de áudio de entrada. Comparando os sinais digitais do arquivo de teste e os gerados na previsão, ilustrados na \figref{fig:lstm-repetition-results}, é possível notar que, quando alinhado com a sequência real de teste, não há nenhuma correspondência. No entanto, ao compararmos com os dados de entrada, isto é, o que construímos a lista $Z$, é possível notar uma clara semelhança. O formato da onda sonora foi mantido, diferindo apenas por sua amplitude.
 
 Devido à natureza de identificação ciclos que o LSTM possui para realizar usas previsões, acredita-se que, pela natureza caótica dos sinais digitais representando áudio natural, não foi possível encontrar nenhum padrão que se repita para poder realizar as previsões. A tendência, portanto, é replicar os dados de entrada, como pode-se observar na \figref{fig:lstm-repetition-results}.
 

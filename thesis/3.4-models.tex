@@ -1,6 +1,6 @@
 \section{Modelos preditivos}
 
-Dada a solução proposta, este trabalho propõe o estudo da viabilidade de dois modelos preditivos - previsão através de (1) geração de novas sequências e (2) indexação e identificação de sequências anteriores. Ambas baseiam-se em extrair informações a partir de entradas anteriores de áudio e apontar um \textit{output} sobre o que classificam ser o mais próximo do dado real futuro - no entanto, possuem diferenças sobre a forma como atingem esse objetivo.
+Dada a solução proposta, este trabalho estuda a viabilidade de dois modelos preditivos - previsão através de (1) geração de novas sequências e (2) indexação e identificação de sequências. Ambas baseiam-se em extrair informações a partir de entradas anteriores de áudio e apontar um \textit{output} sobre o que classificam ser o mais próximo do dado real futuro - no entanto, possuem diferenças sobre a forma como atingem esse objetivo.
 
 \subsection{Geração de novas sequências}
 \label{subsec:new_sequence_generator}
@@ -16,11 +16,11 @@ Em nossa adaptação do \textit{client-side prediction}, anteriormente à sessã
     \label{fig:generative_model}
 \end{figure}
 
-Uma das possibilidades para prever sequências musicais pode ser encontrado no campo de continuação de músicas baseados em um estilo. Dhariwal et. al propõem o \textit{Jukebox}, da \textit{OpenAI}, que usa redes neurais para aprender diferentes gêneros e produzir continuações para músicas \cite{jukebox}. Para o uso em previsões, poderíamos treinar modelos com a música a ser tocada e, para cada pequena sequência, gerar uma continuação. Entretanto, os autores deixam claro que uma das limitações de seu uso é o tempo de renderização - cerca de 8 horas para cada um minuto de áudio gerado \cite{jukebox}. Como o tempo de geração das previsões é bastante sensível em nossa adaptação, essa abordagem foi descartada.
+Uma das possibilidades para prever sequências musicais pode ser encontrado no campo de continuação de músicas baseados em um estilo. Dhariwal et. al propõem o \textit{Jukebox}, da \textit{OpenAI}, que usa redes neurais para aprender diferentes gêneros e produzir continuações para músicas \cite{jukebox}. Para o uso em previsões, poderíamos treinar modelos com a música a ser tocada e, para cada pequena sequência, gerar uma continuação. Entretanto, os autores deixam claro que uma das limitações de seu uso é o tempo de renderização - cerca de 8 horas para cada minuto de áudio gerado \cite{jukebox}. Como o tempo de geração das previsões é bastante sensível em nossa adaptação, essa abordagem foi descartada.
 
 O campo da Aprendizagem de Máquina que visa gerar novas sequências baseando-se nas anteriores é a de Previsão de Séries Temporais (\textit{Time Series Forecasting}). Essa abordagem procura aplicar técnicas para prever continuações de conjunto de dados onde o tempo é uma de suas dimensões \cite{time_series_forecasting}. Podemos classificar, portanto, que previsões de sequências musicais é um subconjunto dos problemas desse campo e, dessa forma, adaptá-la para uso em nossa solução proposta.
 
-Uma das abordagens utilizadas para resolver problemas do conjunto \textit{Time Series Forecasting} é a aplicação das redes neurais recorrentes LSTM (\textit{Long Short-Term Memory}) \cite{lstm}. Tais redes são capazes de aprender conexões de longo prazo. Dessa maneira, elas possuem um memorável poder de predição, funcionando bem em diversos problemas, sendo amplamente usadas atualmente.
+Uma das abordagens utilizadas para resolver problemas do conjunto \textit{Time Series Forecasting} é a aplicação das redes neurais recorrentes LSTM (\textit{Long Short-Term Memory}) \cite{lstm}. Tais redes são capazes de aprender conexões de longo prazo. Dessa maneira, elas possuem um memorável poder de predição, funcionando bem em diversos problemas, sendo amplamente utilizadas atualmente.
 
 A biblioteca \textit{Keras} \cite{keras}, escrita na linguagem de programação Python, implementa modelos de aprendizagem LSTM. Dessa forma, seu uso é bastante promissor para nossa adaptação musical de \textit{Client-Side Prediction}. Exploramos-o no primeiro ciclo de estudos, descrito no \chapref{chap:lstm}.
 
@@ -34,7 +34,7 @@ Para previsão de sequências, a geração de novos valores não é um requisito
 \begin{figure}[htbp]
     \centering
     \includegraphics[width=1\textwidth]{images/index-model.png}
-    \caption{Processo de identificação de sequência $P$ semelhante à entrada $B$ e entrega da previsão baseada na que veio após a sequência $P$ identificada.}
+    \caption{Processo de identificação de sequência semelhante à entrada $B$ e entrega da previsão $P$, baseada na que veio após a sequência identificada.}
     \label{fig:indexative_model}
 \end{figure}
 
@@ -52,25 +52,15 @@ Portanto, tal modelo requer duas técnicas: (1) uma para indexar as sequências 
 
 Neste trabalho, realizamos a primeira técnica manualmente. O processo é demonstrado no \chapref{chap:dtw}.
 
-Para a segunda técnica, estudamos alguns que métodos podem ser utilizados para identificação de sequências. A biblioteca Librosa \cite{librosa}, também escrita em Python, implementa algumas ferramentas que podem auxiliar em tal tarefa, como o cálculo da centroide espectral \cite{centroid} de sequências de áudio. O cálculo encontra uma média central entre as frequências presentes em cada janela de tempo da sequência de entrada. Para identificação, poderíamos calcular as centroides de cada sequência no conjunto de dados e comparar com a sequência transmitida pelo músico remoto. Entretanto, apenas a informação das frequências principais não é suficiente para identificar semelhança, uma vez que tal informação não varia tanto para cada janela, principalmente para aquelas que reproduzem o mesmo acorde ou nota.
+Para a segunda técnica, estudamos alguns que métodos podem ser utilizados para identificação de sequências. A biblioteca Librosa \cite{librosa}, também escrita em Python, implementa algumas ferramentas que podem auxiliar em tal tarefa, como o cálculo da centroide espectral \cite{centroid} de sequências de áudio, que encontra uma média central entre as frequências presentes em cada janela de tempo da sequência de entrada. Para identificação, poderíamos pré-calcular as centroides de cada sequência no conjunto de dados e comparar com a sequência transmitida pelo músico remoto. Entretanto, apenas a informação das frequências principais não é suficiente para identificar semelhança, uma vez que tal informação não varia tanto para cada janela, principalmente para aquelas que reproduzem o mesmo acorde ou nota.
 
-A mesma biblioteca implementa o algoritmo DTW (\textit{Dynamic Time Warping}) \cite{dtw}, um algoritmo utilizado para comparar e alinhar duas séries temporais. Em nossa adaptação de \textit{client-side prediction}, podemos aplicar DTW nas sequências transmitidas contra o banco de dados. Caso haja uma janela semelhante, o algoritmo a entregará como \textit{output} o \textit{timestamp} do início e fim da identificação.
+A mesma biblioteca implementa o algoritmo DTW (\textit{Dynamic Time Warping}) \cite{dtw}, um algoritmo utilizado para comparar e alinhar duas séries temporais. Em nossa adaptação de \textit{client-side prediction}, podemos aplicar DTW nas sequências transmitidas contra o banco de dados. Caso haja uma janela semelhante, o algoritmo a entregará como \textit{output} os \textit{timestamps} representando o início e fim da identificação.
 
 Dessa forma, o \chapref{chap:dtw} também demonstra como utilizamos o DTW em nossas experimentações, além de sua taxa de sucesso na identificação de janelas semelhantes. Caso essa taxa seja alta o suficiente e a indexação das previsões seja acurada, será possível reproduzir um áudio bastante similar ao transmitido pelo músico remoto.
 
 \subsection{Comparações entre os modelos}
 
 Apesar de ambos os modelos basearem-se em sequências anteriores para gerar ou apontar previsões musicais, as duas abordagens diferem na forma que funcionam. As diferenças implicam em alguns pontos que uma abordagem pode realizar melhor que a outra, assim como o inverso pode ocorrer, descritos na \tabref{tab:models_comparission}.
-
-Por entregar sequências inéditas, o modelo preditivo gerador de novas sequências, descrito na \subsecref{subsec:new_sequence_generator}, é mais flexível que o modelo indexador, descrito na \subsecref{subsec:indexation_and_identification}. Afinal, entradas nunca vistas anteriormente sempre terão previsões geradas, mesmo que não sejam precisas com a realidade. Se aplicarmos sequências não vistas no modelo indexador, nenhuma janela será identificada e, portanto, nenhuma previsão será realizada.
-
-Além disso, para identificar uma janela precisamente, o modelo indexador requisita de mais informações que o modelo gerador, aumentando, portanto, o tempo da janela de previsão. Quanto maior a janela prevista, menor a probabilidade de replicar, de forma similar, a sequência de entrada. 
-
-Por outro lado, pela natureza complexa da representação de áudio, gerar uma sequência de alta qualidade, ainda que precisa, é um grande desafio para o modelo gerador. Por entregar sequências já armazenadas em alta qualidade, o modelo indexador sempre entregará sequências limpas ao ouvido humano, evitando desconfortos dos músicos.
-
-Ademais, a utilização de LSTM, devido à complexidade das redes neurais, pode requerer grandes tempos de processamento \cite{lstm_slow} para gerar as previsões. A busca com DTW, apesar de ser um algoritmo de complexidade $O(N^2)$, pode ser otimizado para grandes bases de dados \cite{dtw_complexity}. Como o tempo de previsão é sensível em nossa adaptação do \textit{client-side prediction} para música, é essencial que o modelo preditivo seja eficiente.
-
-A \tabref{tab:models_comparission} resume as diferenças entre os dois modelos propostos, de acordo com o que conseguem oferecer entre si.
 
 \begin{table}[ht!]
     \centering
@@ -92,3 +82,11 @@ A \tabref{tab:models_comparission} resume as diferenças entre os dois modelos p
     \caption{Matriz morfológica comparando os dois modelos propostos para adaptação do \textit{client-side prediction} para música.}
     \label{tab:models_comparission}
 \end{table}
+
+Por entregar sequências inéditas, o modelo preditivo gerador de novas sequências, descrito na \subsecref{subsec:new_sequence_generator}, é mais flexível que o modelo indexador, descrito na \subsecref{subsec:indexation_and_identification}. Afinal, entradas nunca vistas anteriormente sempre terão previsões geradas, mesmo que não sejam precisas com a realidade. Se aplicarmos sequências não vistas no modelo indexador, nenhuma janela será identificada e, portanto, nenhuma previsão poderá ser realizada acuradamente.
+
+Além disso, para identificar uma janela precisamente, o modelo indexador requer mais informações que o modelo gerador, aumentando, portanto, o tempo da janela de previsão. Quanto maior a janela prevista, mais suposições terão que ser feitas sobre a previsão e, portanto, menor a probabilidade de replicar, de forma similar, a sequência de entrada. 
+
+Por outro lado, pela natureza complexa da representação de áudio, gerar uma sequência de alta qualidade de definição sonora, ainda que semelhante à sequência real do músico remoto, é um grande desafio para o modelo gerador. Por entregar sequências já armazenadas em alta qualidade, o modelo indexador sempre entregará sequências limpas ao ouvido humano, evitando desconfortos dos músicos.
+
+Ademais, a utilização de LSTM, devido à complexidade das redes neurais, pode requerer grandes tempos de processamento \cite{lstm_slow} para gerar as previsões. A busca com DTW, apesar de ser um algoritmo de complexidade $O(N^2)$, pode ser otimizado para grandes bases de dados \cite{dtw_complexity}. Como o tempo de previsão é sensível em nossa adaptação do \textit{client-side prediction} para música, é essencial que o modelo preditivo seja eficiente.

@@ -20,7 +20,7 @@ Uma forma de visualizar como os dados podem ser estruturados é transformando as
 \begin{figure}[htbp]
     \centering
     \includegraphics[width=1\textwidth]{images/dtw-real division.png}
-    \caption{Relação dos estados da \figref{fig:miab_state_machine} com compassos na partitura da trilha da guitarra elétrica da música \textit{Message In A Bottle} (\textit{The Police}, 1979).}
+    \caption{Relação dos estados da \figref{fig:miab_state_machine} com compassos em um trecho da partitura da trilha da guitarra elétrica da música \textit{Message In A Bottle} (\textit{The Police}, 1979).}
     \label{fig:miab_sheet_music}
 \end{figure}
 
@@ -46,7 +46,7 @@ Ao dividir as janelas de referência, portanto, é necessário escolher cortes o
 
 Em nossos experimentos, identificamos e separamos cada estado manualmente, assim como construímos a máquina de estados de referência, semelhante à apresentada na \figref{fig:miab_adapted_state_machine}. Para a música \textit{Message In A Bottle}, utilizamos duas unidades de divisão para experimentação: uma onde cada janela de referência possuía dois compassos de duração (3,158 segundos) e outra onde possuíam um compasso de duração (1,579 segundos).
 
-Também realizamos testes com a introdução da música \textit{Hotel California}, que, diferentemente de \textit{Message In A Bottle}, não possui \textit{loops}. Com isto, não havia necessidade da identificação de janelas de transição, tornando a máquina de estados linear. Para esta música, experimentamos durações de 1, 2 e 3 segundos para cada janela de referência.
+Também realizamos testes com a introdução da música \textit{Hotel California}, que, diferentemente de \textit{Message In A Bottle}, não possui \textit{loops}. Com isto, não havia necessidade da identificação de janelas de transição, tornando a máquina de estados linear. Para ests música, experimentamos durações de 1, 2 e 3 segundos para cada janela de referência.
 
 \subsection{Processo de identificação das janelas e apontamento das previsões}
 
@@ -56,7 +56,7 @@ A função do DTW pode receber diversos argumentos. Para nossos experimentos, ut
 
 Note que os dois primeiros argumentos requerem matrizes de \textit{features} das sequências de áudio. Para a primeira matriz, juntamos todos os arquivos de áudio da base de dados de referência em um único, e retiramos seu chromagrama \cite{chromagram}, também implementado pela Librosa, que retorna uma tabela das notas musicais mais presentes na sequência em função do tempo. Para a segunda matriz, utilizamos a mesma função para a sequência de pesquisa, simulando o áudio transmitido pelo músico remoto.
 
-Já que configuramos como "verdadeiro" o valor o booleano $subseq$, o algoritmo já nos dirá que corte do banco de dados de referência a nossa janela de pesquisa é mais semelhante. Observe, por exemplo, a \figref{fig:dtw_hotel_california} para a música \textit{Hotel California} - ao separar em janelas de 3 segundos, o DTW nos entregará os pontos, em segundos, sob a qual essa sequência de pesquisa se encaixa na base de referência. Com esses valores, é possível identificar qual janela de referência foi identificada - na imagem, foi a \#1. No caso da música \textit{Hotel California}, como sua máquina de estados é linear na introdução, a previsão seria a janela \#2.
+Já que configuramos como ``verdadeiro'' o valor o booleano $subseq$, o algoritmo já nos dirá que corte do banco de dados de referência a nossa janela de pesquisa é mais semelhante. Observe, por exemplo, a \figref{fig:dtw_hotel_california} para a música \textit{Hotel California} - ao separar em janelas de 3 segundos, o DTW nos entregará os pontos, em segundos, sob a qual essa sequência de pesquisa se encaixa na base de referência. Com esses valores, é possível identificar qual janela de referência foi identificada - na imagem, foi a \#1. No caso da música \textit{Hotel California}, como sua máquina de estados é linear na introdução, a previsão seria a janela \#2.
 
 \begin{figure}[htbp]
     \centering
