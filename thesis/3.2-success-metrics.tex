@@ -1,7 +1,7 @@
 \section{Métricas de sucesso dos modelos preditivos}
 \label{sec:success_metrics}
 
-Como mencionado, existem alguns requisitos que os modelos preditivos propostos precisam cumprir para serem considerados bem sucedidos. Em cada ciclo, diferentes metodologias foram utilizadas para demonstrar essas métricas.
+Como mencionado, existem alguns requisitos que os modelos preditivos propostos precisam cumprir para serem considerados bem sucedidos. Em cada ciclo, diferentes metodologias foram utilizadas para calcular e interpretar essas métricas.
 
 \subsection{Corretude das previsões}
 \label{subsec:prediction_correctness}
@@ -12,11 +12,11 @@ Dada a natureza da predição, não é esperado que as sequências geradas sejam
 
 Dessa forma, o critério de sucesso dessa métrica é, para as sequências previstas, que seja imperceptível, em tempo real, que haja diferenças entre as sequências originais; de forma que um músico, ao ouvir ambas as sequências, reagiria musicalmente da mesma maneira ou de maneira similar.
 
-Note que, por se tratar de um critério abstrato, quantificar essa métrica pode não representar bem o seu sucesso. Em cada um dos ciclos, utilizamos diferentes metodologias (demonstrados em \secref{sec:lstm-metodology} e \secref{sec:dtw-metodology}) para medi-la, visando sempre satisfazer o critério estabelecido.
+Note que, por se tratar de um critério abstrato, quantificar essa métrica objetivamente pode não representar bem o seu sucesso. Em cada um dos ciclos, utilizamos diferentes metodologias (demonstradas na \secref{sec:lstm-metodology} e na \secref{sec:dtw-metodology}) para medi-la, visando sempre satisfazer o critério estabelecido.
 
 \subsection{Tempo de geração de previsões}
 \label{subsec:time_metric}
 
 Supondo que \textit{t} é o tempo escolhido das janelas de previsão de áudio e \textit{p} é o tempo levado para gerar essas previsões, é imprescindível para o sucesso dos modelos preditivos que $t \leq p $. Caso contrário, o tempo excedente de processamento cria um \textit{delay} entre o que está sendo executado pelo músico remoto e o que está sendo reproduzido localmente e, consequentemente, causando dessincronia entre os músicos.
 
-Ao contrário do critério de corretude na \secref{subsec:prediction_correctness}, essa métrica consegue ser medida precisamente. Será considerado bem sucedida o modelo preditivo que produzir sequências em um tempo menor que a duração do áudio gerado.
+Ao contrário do critério de corretude na \subsecref{subsec:prediction_correctness}, essa métrica consegue ser medida precisamente. Será considerado bem sucedido o modelo preditivo que produzir sequências em um tempo menor que a duração do áudio gerado.
