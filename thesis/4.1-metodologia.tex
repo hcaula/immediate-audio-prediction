@@ -5,7 +5,14 @@ Para definir nossa metodologia, precisamos estabelecer seguintes passos necessá
 
 \subsection{Camadas da rede neural}
 
-A API Keras \cite{keras}, uma biblioteca em Python voltada para desenvolvimento de aplicações \textit{deep learning}, implementa a camada \textit{LSTM} em seu modelo \textit{Sequential}. Em nossos experimentos, utilizaremos quatro camadas LSTM, que realizará as previsões, e uma camada \textit{Dense}, que reunirá as camadas em uma única lista de \textit{output}.
+A API Keras \cite{keras}, uma biblioteca em Python voltada para desenvolvimento de aplicações \textit{deep learning}, implementa a camada \textit{LSTM} em seu modelo \textit{Sequential}. Em nossos experimentos, utilizaremos uma camada de \textit{input}, uma camada LSTM, que realizará as previsões, e uma camada \textit{Dense}, que reunirá as camadas em uma única lista de \textit{output}. A \figref{fig:lstm-rnn} ilustra essa rede neural, considerando que queremos prever sequências simulando uma latência de 50 ms.
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.5\textwidth]{images/lstm-rnn.png}
+    \caption{Visualização da rede neural utilizada nos experimentos com LSTM para uma latência simulada de 50 ms.}
+    \label{fig:lstm-rnn}
+\end{figure}
 
 \subsection{Formatação dos dados de aprendizagem}
 \label{subsec:input_lstm}
@@ -16,7 +23,7 @@ Como entrada para realizar a aprendizagem, o modelo \textit{Sequential} requer d
 
 \begin{enumerate}
     \item Uma lista $X$ de sequências numéricas de tamanho $LB$ e;
-    \item Uma lista $Y$ de sequências numéricas futuras de tamanho $LB$ .
+    \item Uma lista $Y$ de sequências numéricas futuras de tamanho $LB$.
 \end{enumerate}
 
 As listas estão organizadas de forma que, dado a lista $X_i$, a lista $Y_i$ representa o que veio em seguida - isto é, para uma sequência na posição $i$ na lista $X$, a sequência na mesma posição $i$ na lista $Y$ representa a sequência que veio logo a seguir. O valor de $LB$, representando o \textit{lookback} que devemos utilizar para analisar a lista do passado e a geração de previsões, serve como o número de elementos de cada lista $X_i$ e $Y_i$.
@@ -34,13 +41,13 @@ Note que o conjunto $X$ não possui a sequência $(5,6)$. Isso se dá pois, dado
 
 Para simplificar o processamento da aprendizagem e da previsão, normalizamos as sequências numéricas no intervalo $[-1, +1]$.
 
-Em nossos experimentos, utilizamos os dois primeiros seguntos da introdução da música \textit{Hotel California} (\textit{Eagles}, 1976), com a trilha isolada do violão acústico. Tal sessão se repete em um total de três vezes ao longo da música, porém, com diferentes performances. A primeira delas, então, é usada como treinamento.
+Em nossos experimentos, utilizamos os dois primeiros segundos da introdução da música \textit{Hotel California} (\textit{Eagles}, 1976), com a trilha isolada do violão acústico. Tal sessão se repete em um total de três vezes ao longo da música, porém, com diferentes execuções. A primeira delas, então, é usada como treinamento.
 
 O valor do \textit{lookback}, em nossa adaptação, representa o tamanho da janela de previsão. A escolha desse valor está intrinsecamente conectada ao sucesso do algoritmo - valores pequenos possuem pouca informação, porém, são mais rápidos para processar; reciprocamente, o inverso ocorre com valores maiores. É importante mencionar que esse valor necessita ser maior que a latência apresentada pelo transporte dos pacotes pela Internet, afinal, queremos compensá por ela ao realizar previsões.
 
 Portanto, para calcular o valor de $LB$, precisamos definir o valor de $LAG$, que simula a latência apresentada pela Internet. Em nossos experimentos, escolhemos dois valores: (1) 50 ms e (2) 100 ms. O primeiro valor foi definido utilizando de uma média de testes de \textit{ping} entre Recife e o servidor 8.8.8.8, hospedado pelo Google e localizado no estado da Califórnia, Estados Unidos. O segundo é o dobro desse valor, de forma a compensar por possíveis picos de latência apresentados pela incerteza da entrega de pacotes pela Internet.
 
-Então, Dado os valores $SR$ e $LAG$, onde $SR$ representa o \textit{sample rate} das sequências de áudio medido em KHz (\textit{valores} por segundo) e $LAG$ a latência simulada da Internet medida em (milissegundos), podemos calcular $LB$ aplicando a seguinte fórmula:
+Então, dado os valores $SR$ e $LAG$, onde $SR$ representa o \textit{sample rate} das sequências de áudio medido em KHz (\textit{valores} por segundo) e $LAG$ a latência simulada da Internet medida em (milissegundos), podemos calcular $LB$ aplicando a seguinte fórmula:
 
 \begin{equation}
     LB = \frac{SR}{1.000} * LAG
@@ -56,7 +63,7 @@ Definidos os valores de $X$, $Y$, $LB$ e $E$, podemos, então treinar nossa rede
 
 \subsection{Processo de previsão}
 
-Nos experimentos de nossas predições, precisamos organizar nossos dados de teste. Escolhemos a terceira repetição da introdução tocada em \textit{Hotel California} pois, em análise manual, soaram semelhantes entre si, porém, com algumas pequenas improvizações. Por exemplo, em algumas transições entre acordes, é tocado uma nota intermediária, o que não foi observado na primeira repetição da introdução. Essa característica é ideal para uma simulação de um ambiente musical \textit{online} colaborativo - a mesma sequência de acordes foi tocada, porém, com leves variações da forma que é performada.
+Nos experimentos de nossas predições, precisamos organizar nossos dados de teste. Escolhemos a terceira repetição da introdução tocada em \textit{Hotel California} pois, em análise manual, soaram semelhantes entre si, porém, com algumas pequenas improvisações. Por exemplo, em algumas transições entre acordes, é tocado uma nota intermediária, o que não foi observado na primeira repetição da introdução. Essa característica é ideal para uma simulação de um ambiente musical \textit{online} colaborativo - a mesma sequência de acordes foi tocada, porém, com leves variações da forma que é performada.
 
 Uma vez treinado, o modelo requer uma lista $Z$, no mesmo formato que a lista $X$, definida na \subsecref{subsec:input_lstm} - uma conjunto de subconjuntos de tamanho $LB$. Além disso, precisaremos realizar a normalização inversa da previsão para retornar os valores ao intervalo original de $[-32.768, +32.767]$ para, de fato, podermos representar as previsões em arquivos WAV.
 
@@ -64,4 +71,4 @@ Portanto, para rodar as previsões com o arquivo completo da introdução de \te
 
 Como uma das métricas de sucesso, definidas na \secref{sec:success_metrics}, é o tempo necessário para gerar as previsões, medimos o tempo para formatar cada arquivo de duração $LAG$ ms e o de geração das previsões, para cada lista $Z$.
 
-Ao final de todas as previsões, convertemos todas as sequências de sinais digitais para um arquivo WAV para análise manual dos áudios produzidos.
+Ao final de todas as previsões, convertemos todas as sequências de sinais digitais para um arquivo WAV para análise manual dos áudios produzidos \footnote{O áudio gerado pode ser encontrado em \url{https://cutt.ly/cvNkBna}.}.

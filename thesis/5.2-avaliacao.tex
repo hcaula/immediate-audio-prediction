@@ -50,11 +50,11 @@ Portanto, vejamos na \tabref{tab:dtw_results_correctness}, as taxas de acertos p
 
 Notamos que, quanto maior a janela de duração, maior é a taxa de identificação. Isso corrobora nossa hipótese que, quanto maior a janela, mais informações possuímos para identificar com sucesso uma sequência de referência em nossa base. Para a música \textit{Hotel California}, já que não existe nenhum estado de transição, a taxa de acerto de identificação será igual a taxa de acerto das previsões.
 
-Entretanto, na música \textit{Message In A Bottle}, o mesmo não ocorre. Sempre que o músico remoto tocar uma transição, haverá um erro na previsão, pois nenhum estado aponta para transições. Porém, vale-se mencionar que esse erro será corrigido assim que possível - precisamente, a correção tem a duração de meio compasso, como determinado como \textit{offset} para cada janela. É possível fazer uma comparação desse estado à sensação de "teletransporte", mencionado na \secref{sec:client_side_prediction}, na implementação original de \textit{client-side prediction} para jogos.
+Entretanto, na música \textit{Message In A Bottle}, o mesmo não ocorre. Sempre que o músico remoto tocar uma transição, haverá um erro na previsão, pois nenhum estado aponta para transições. Porém, vale mencionar que esse erro será corrigido assim que possível - precisamente, a correção tem a duração de meio compasso, como determinado como \textit{offset} para cada janela. É possível fazer uma comparação desse estado à sensação de "teletransporte", mencionado na \secref{sec:client_side_prediction}, na implementação original de \textit{client-side prediction} para jogos.
 
 Quanto aos resultados, podemos considerar que foram bastante positivos. Vale mencionar que, dada nossa limitação de que a base de dados deve possuir janelas de referência similares às que serão testadas, não simulamos um ambiente real com total fidelidade, uma vez que, para que a aplicação seja generalista, o banco de dados necessita ter um grande volume de dados.
 
-Além disso, o valor da duração das janelas utilizado nas experimentações em \textit{Message In A Bottle} estão ligadas à duração dos compassos que, por sua vez, assumem um BPM constante durante a execução da música. Em um ambiente real, idealmente, não devemos restringir os músicos a performarem em um BPM único.
+Além disso, o valor da duração das janelas utilizado nas experimentações em \textit{Message In A Bottle} estão ligadas à duração dos compassos que, por sua vez, assumem um BPM constante durante a execução da música. Em um ambiente real, idealmente, não devemos restringir os músicos a tocarem em um BPM único.
 
 \subsection{Tempo de geração de previsões}
 
@@ -96,3 +96,11 @@ Vejamos, na \tabref{tab:dtw_results_time}, as médias de tempo que este modelo l
 É notável que houve uma excelente performance nessa métrica. Para ser bem sucedida, os tempos precisam ser inferiores às durações das janelas e, para cada duração experimentada, esse objetivo foi alcançado com bastante tempo de sobra.
 
 Vale notar que a base de dados experimentada continha apenas janelas semelhantes às que seriam testadas, deixando seu volume bastante inferior ao que uma aplicação real necessitaria. Portanto, em grande escala, é possível que otimizações sejam necessárias para manter esse tempo aceitável, como indexar os dados pela nota musical principal, instrumento tocado, etc.
+
+\subsection{Considerações}
+
+Os resultados apresentados pelo modelo indexador com DTW foram bastante promissores. A taxa de identificação, para valores de janelas acima de 3 segundos, foi de 100\% em ambas as músicas testadas. Para a música \textit{Message In A Bottle}, por utilizarmos um tempo de janela com duração relacionada à música - a duração dos compassos - a taxa de identificação continuou relativamente alta para as duas durações de janelas escolhidas.
+
+Além disso, por ter sido performática, há evidências de que é possível escalar essa solução para bases maiores, tornando a aplicação mais generalista.
+
+No entanto, revelou-se que, quando menor a duração da janela, menor foi a taxa de identificação e, portanto, a de previsão. Portanto, para músicos que realizarão improvisos, como \textit{jam sessions}, essa aplicação não deve ser ideal.

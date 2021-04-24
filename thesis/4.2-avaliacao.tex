@@ -6,9 +6,9 @@ Para analisar a efetividade desse modelo, vamos analisar sob a ótica os critér
 
 Para cada um dos valores de $LAG$, definidos na \secref{sec:lstm-metodology}, todas as previsões realizadas tenderam a "repetir" as sequências de áudio de entrada. Comparando os sinais digitais do arquivo de teste e os gerados na previsão, ilustrados na \figref{fig:lstm-repetition-results}, é possível notar que, quando alinhado com a sequência real de teste, não há nenhuma correspondência. No entanto, ao compararmos com os dados de entrada, isto é, o que construímos a lista $Z$, é possível notar uma clara semelhança. O formato da onda sonora foi mantido, diferindo apenas por sua amplitude.
 
-Devido à natureza de identificação ciclos que o LSTM possui para realizar usas previsões, acredita-se que, pela natureza caótica dos sinais digitais representando áudio natural, não foi possível encontrar nenhum padrão que se repita para poder realizar as previsões. A tendência, portanto, é replicar os dados de entrada.
+Devido à natureza de identificação ciclos que o LSTM possui para realizar usas previsões, acredita-se que, pela natureza caótica dos sinais digitais representando áudio natural, não foi possível encontrar nenhum padrão que se repita para poder realizar as previsões. A tendência, portanto, é replicar os dados de entrada, como pode-se observar na \figref{fig:lstm-repetition-results}.
 
-Ademais, os áudios previstos soaram distorcidos, consequência das diferenças de amplitude encontradas nos sinais digitais da previsão contra a sequência de entrada. Como os dados são gerados, sem nenhuma instrução ou base para geração de áudios de boa qualidade, o resultado foi esperado.
+Ademais, os áudios previstos soaram distorcidos quando comparados às sequências de entrada. Como o áudio é gerado pela rede neural, sem nenhuma instrução ou base para geração de áudios de boa qualidade, o resultado foi esperado. A \figref{fig:lstm-repetition-results} demonstra que, apesar da previsão seguir o mesmo formato das ondas da sequência de entrada, o mesmo não ocorre com sua amplitude, sugerindo que há perda de informações e causando, consequentemente, a sensação de distorção. 
 
 Esses resultados foram observados em todas as janelas de entrada, tanto para os valores de $LAG$ 50 ms e 100 ms.
 
@@ -58,3 +58,7 @@ Na \tabref{tab:lstm-time-results}, podemos observar as médias de tempo para ger
 \end{table}
 
 Ademais, vale notar que, apesar de não ser uma métrica de sucesso, que o tempo médio de treinamento foi relativamente alto, além de depender do valor de $LAG$. Em uma aplicação real, onde a base de treinamento teria um alto volume de dados, é possível que o tempo de aprendizagem fosse alto o suficiente para não ser possível rodar em uma máquina comum, com poucos recursos disponíveis.
+
+\subsection{Considerações}
+
+Em suma, por não satisfazer os dois critérios de avaliação, não há indícios que o modelo preditivo gerador com LSTM deve ser utilizado em uma adaptação do \textit{client-side prediction} para ambientes musicais. Os resultados indicam que outros métodos devem ser utilizados, de forma a aumentar a precisão das previsões e deixá-las mais eficientes.

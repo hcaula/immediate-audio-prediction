@@ -1,9 +1,9 @@
 \section{Metodologia dos experimentos}
 \label{sec:dtw-metodology}
 
-A metodologia utilizada neste modelo pode ser dividida em duas partes: (1) como o banco de dados de referência foi organizado e; (2) como funciona o processo de identificação das janelas do banco de dados e apontamento das previsões.
+A metodologia utilizada neste modelo pode ser dividida em duas partes: (1) o processo da indexação do banco de dados de referência e; (2) como funciona o processo de identificação das janelas do banco de dados e apontamento das previsões.
 
-\subsection{Organização do banco de dados de referência}
+\subsection{Indexação do banco de dados de referência}
 \label{subsec:database_dtw}
 
 Como mencionado na \subsecref{subsec:indexation_and_identification}, o banco de dados de referência para esse modelo respeita um conjunto de três regras. Portanto, para os nossos experimentos, precisamos organizar as sequências de referência respeitando-as.
@@ -52,11 +52,11 @@ Também realizamos testes com a introdução da música \textit{Hotel California
 
 Uma vez que possuímos o banco de dados de referência organizado, podemos realizar a identificação para as sequências de entrada, transmitidas pelo músico remoto. Como mencionado na \subsecref{subsec:indexation_and_identification}, utilizamos o algoritmo de alinhamento de séries temporais, o DTW (\textit{Dynamic Time Warping}) \cite{dtw}, especificamente a implementação da biblioteca Librosa \cite{librosa}, em Python.
 
-A função do DTW pode receber diversos argumentos. Para nossos experimentos, utilizamos três deles: (1) uma matriz de \textit{features} da sequência de referência; (2) uma matriz de \textit{features} da sequência de pesquisa e; (3) o boleano $subseq$, que indica se a sequência de pesquisa está contida como subsequência na primeira sequência - em nosso caso, enviamos esse argumento como $True$.
+A função do DTW pode receber diversos argumentos. Para nossos experimentos, utilizamos três deles: (1) uma matriz de \textit{features} da sequência de referência; (2) uma matriz de \textit{features} da sequência de pesquisa e; (3) o booleano $subseq$, que indica se a sequência de pesquisa está contida como subsequência na primeira sequência - em nosso caso, enviamos esse argumento como $True$.
 
 Note que os dois primeiros argumentos requerem matrizes de \textit{features} das sequências de áudio. Para a primeira matriz, juntamos todos os arquivos de áudio da base de dados de referência em um único, e retiramos seu chromagrama \cite{chromagram}, também implementado pela Librosa, que retorna uma tabela das notas musicais mais presentes na sequência em função do tempo. Para a segunda matriz, utilizamos a mesma função para a sequência de pesquisa, simulando o áudio transmitido pelo músico remoto.
 
-Já que configuramos como "verdadeiro" o valor o boleano $subseq$, o algoritmo já nos dirá que corte do banco de dados de referência a nossa janela de pesquisa é mais semelhante. Observe, por exemplo, a \figref{fig:dtw_hotel_california} para a música \textit{Hotel California} - ao separar em janelas de 3 segundos, o DTW nos entregará os pontos, em segundos, sob a qual essa sequência de pesquisa se encaixa na base de referência. Com esses valores, é possível identificar qual janela de referência foi identificada - na imagem, foi a \#1. No caso da música \textit{Hotel California}, como sua máquina de estados é linear na introdução, a previsão seria a janela \#2.
+Já que configuramos como "verdadeiro" o valor o booleano $subseq$, o algoritmo já nos dirá que corte do banco de dados de referência a nossa janela de pesquisa é mais semelhante. Observe, por exemplo, a \figref{fig:dtw_hotel_california} para a música \textit{Hotel California} - ao separar em janelas de 3 segundos, o DTW nos entregará os pontos, em segundos, sob a qual essa sequência de pesquisa se encaixa na base de referência. Com esses valores, é possível identificar qual janela de referência foi identificada - na imagem, foi a \#1. No caso da música \textit{Hotel California}, como sua máquina de estados é linear na introdução, a previsão seria a janela \#2.
 
 \begin{figure}[htbp]
     \centering
@@ -69,4 +69,4 @@ Para calcular a taxa de sucesso das identificações, montamos um arquivo de ref
 
 Para a medição de performance, consideramos o tempo levado para identificar a janela com DTW e de reproduzir a previsão.
 
-Uma vez que todas as janelas passaram pelo processo completo, juntamos todas as sequências de previsões apontadas em um arquivo WAV para análise.
+Uma vez que todas as janelas passaram pelo processo completo, juntamos todas as sequências de previsões apontadas em um arquivo WAV para análise \footnote{As previsões geradas podem ser encontradas em \url{https://cutt.ly/2vNvRfy}.}.

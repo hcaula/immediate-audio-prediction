@@ -54,7 +54,7 @@ Neste trabalho, realizamos a primeira técnica manualmente. O processo é demons
 
 Para a segunda técnica, estudamos alguns que métodos podem ser utilizados para identificação de sequências. A biblioteca Librosa \cite{librosa}, também escrita em Python, implementa algumas ferramentas que podem auxiliar em tal tarefa, como o cálculo da centroide espectral \cite{centroid} de sequências de áudio. O cálculo encontra uma média central entre as frequências presentes em cada janela de tempo da sequência de entrada. Para identificação, poderíamos calcular as centroides de cada sequência no conjunto de dados e comparar com a sequência transmitida pelo músico remoto. Entretanto, apenas a informação das frequências principais não é suficiente para identificar semelhança, uma vez que tal informação não varia tanto para cada janela, principalmente para aquelas que reproduzem o mesmo acorde ou nota.
 
-Entretanto, a mesma biblioteca implementa o algoritmo DTW (\textit{Dynamic Time Warping}) \cite{dtw}, um algoritmo utilizado para comparar e alinhar duas séries temporais. Em nossa adaptação de \textit{client-side prediction}, podemos aplicar DTW nas sequências transmitidas contra o banco de dados. Caso haja uma janela semelhante, o algoritmo a entregará como \textit{output} o \textit{timestamp} do início e fim da identificação.
+A mesma biblioteca implementa o algoritmo DTW (\textit{Dynamic Time Warping}) \cite{dtw}, um algoritmo utilizado para comparar e alinhar duas séries temporais. Em nossa adaptação de \textit{client-side prediction}, podemos aplicar DTW nas sequências transmitidas contra o banco de dados. Caso haja uma janela semelhante, o algoritmo a entregará como \textit{output} o \textit{timestamp} do início e fim da identificação.
 
 Dessa forma, o \chapref{chap:dtw} também demonstra como utilizamos o DTW em nossas experimentações, além de sua taxa de sucesso na identificação de janelas semelhantes. Caso essa taxa seja alta o suficiente e a indexação das previsões seja acurada, será possível reproduzir um áudio bastante similar ao transmitido pelo músico remoto.
 
@@ -69,6 +69,8 @@ Além disso, para identificar uma janela precisamente, o modelo indexador requis
 Por outro lado, pela natureza complexa da representação de áudio, gerar uma sequência de alta qualidade, ainda que precisa, é um grande desafio para o modelo gerador. Por entregar sequências já armazenadas em alta qualidade, o modelo indexador sempre entregará sequências limpas ao ouvido humano, evitando desconfortos dos músicos.
 
 Ademais, a utilização de LSTM, devido à complexidade das redes neurais, pode requerer grandes tempos de processamento \cite{lstm_slow} para gerar as previsões. A busca com DTW, apesar de ser um algoritmo de complexidade $O(N^2)$, pode ser otimizado para grandes bases de dados \cite{dtw_complexity}. Como o tempo de previsão é sensível em nossa adaptação do \textit{client-side prediction} para música, é essencial que o modelo preditivo seja eficiente.
+
+A \tabref{tab:models_comparission} resume as diferenças entre os dois modelos propostos, de acordo com o que conseguem oferecer entre si.
 
 \begin{table}[ht!]
     \centering
